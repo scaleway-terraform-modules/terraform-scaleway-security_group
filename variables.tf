@@ -62,8 +62,8 @@ variable "inbound_rules" {
 variable "outbound_rules" {
   description = "List of outbound rule to add to the security group."
   type = list(object({
-    action   = string
-    protocol = string
+    action     = string
+    protocol   = string
     port       = optional(number)
     port_range = optional(string)
     ip         = optional(string)
