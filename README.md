@@ -11,8 +11,8 @@ This repository is used to create a security group on scaleway using terraform.
 
 ```hcl
 module "my_sg" {
-  source  = "app.terraform.io/terra-art/security_group/scaleway"
-  version = "1.0.0"
+  source  = "benoit-garcia/security_group/scaleway"
+  version = "0.0.3"
 }
 ```
 
