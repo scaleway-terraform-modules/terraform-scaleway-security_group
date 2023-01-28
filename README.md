@@ -11,7 +11,7 @@ This repository is used to create a security group on scaleway using terraform.
 
 ```hcl
 module "my_sg" {
-  source  = "app.terraform.io/terra-art/sc_sh/scaleway"
+  source  = "app.terraform.io/terra-art/sc_sg/scaleway"
   version = "1.0.0"
 }
 ```
@@ -44,14 +44,21 @@ module "my_sg" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_enable_default_security"></a> [enable_default_security](#input_enable_default_security) | n/a | `bool` | `true` | no |
-| <a name="input_inbound_default_policy"></a> [inbound_default_policy](#input_inbound_default_policy) | n/a | `string` | `"drop"` | no |
-| <a name="input_inbound_rules"></a> [inbound_rules](#input_inbound_rules) | n/a | ```list(object({ action = string protocol = string port = optional(number) ip_range = optional(string) }))``` | ```[ { "action": null, "ip_range": null, "port": null, "protocol": null } ]``` | no |
-| <a name="input_name"></a> [name](#input_name) | n/a | `string` | `"git-servers"` | no |
-| <a name="input_outbound_default_policy"></a> [outbound_default_policy](#input_outbound_default_policy) | n/a | `string` | `"drop"` | no |
-| <a name="input_outbound_rules"></a> [outbound_rules](#input_outbound_rules) | n/a | ```list(object({ action = string protocol = string port = optional(number) ip_range = optional(string) }))``` | ```[ { "action": null, "ip_range": null, "port": null, "protocol": null } ]``` | no |
-| <a name="input_stateful"></a> [stateful](#input_stateful) | n/a | `bool` | `true` | no |
+| <a name="input_description"></a> [description](#input_description) | Description of the security group. | `string` | `null` | no |
+| <a name="input_enable_default_security"></a> [enable_default_security](#input_enable_default_security) | Whether to block SMTP on IPv4/IPv6 (Port 25, 465, 587). Set to false will unblock SMTP if your account is authorized to. If your organization is not yet authorized to send SMTP traffic, open a support ticket. | `bool` | `true` | no |
+| <a name="input_inbound_default_policy"></a> [inbound_default_policy](#input_inbound_default_policy) | Default policy on incoming traffic. Possible values are: accept or drop. | `string` | `"drop"` | no |
+| <a name="input_inbound_rules"></a> [inbound_rules](#input_inbound_rules) | List of inbound rule to add to the security group. | ```list(object({ action = string protocol = string port = optional(number) port_range = optional(string) ip = string ip_range = optional(string) }))``` | ```[ { "action": null, "ip": null, "ip_range": null, "port": null, "port_range": null, "protocol": null } ]``` | no |
+| <a name="input_name"></a> [name](#input_name) | Name of the security group. | `string` | `null` | no |
+| <a name="input_outbound_default_policy"></a> [outbound_default_policy](#input_outbound_default_policy) | Default policy on outgoing traffic. Possible values are: accept or drop. | `string` | `"drop"` | no |
+| <a name="input_outbound_rules"></a> [outbound_rules](#input_outbound_rules) | List of outbound rule to add to the security group. | ```list(object({ action = string protocol = string port = optional(number) ip_range = optional(string) }))``` | ```[ { "action": null, "ip_range": null, "port": null, "protocol": null } ]``` | no |
+| <a name="input_stateful"></a> [stateful](#input_stateful) | Boolean to specify whether the security group should be stateful or not. | `bool` | `true` | no |
 | <a name="input_tags"></a> [tags](#input_tags) | Tags associated with the security group and its rules. | `list(any)` | `[]` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_group_id"></a> [group_id](#output_group_id) | ID of the security group. |
 <!-- END_TF_DOCS -->
 
 ## Known issues
