@@ -44,7 +44,7 @@ variable "inbound_rules" {
     protocol   = string
     port       = optional(number)
     port_range = optional(string)
-    ip         = string
+    ip         = optional(string)
     ip_range   = optional(string)
   }))
   default = [
@@ -64,15 +64,19 @@ variable "outbound_rules" {
   type = list(object({
     action   = string
     protocol = string
-    port     = optional(number)
-    ip_range = optional(string)
+    port       = optional(number)
+    port_range = optional(string)
+    ip         = optional(string)
+    ip_range   = optional(string)
   }))
   default = [
     {
-      action   = null
-      protocol = null
-      port     = null
-      ip_range = null
+      action     = null
+      protocol   = null
+      port       = null
+      port_range = null
+      ip         = null
+      ip_range   = null
     }
   ]
 }
