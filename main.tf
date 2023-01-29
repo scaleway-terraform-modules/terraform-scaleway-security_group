@@ -9,8 +9,7 @@ resource "scaleway_instance_security_group" "this" {
   tags                    = var.tags
 }
 
-
-resource "scaleway_instance_security_group_rules" "inboud" {
+resource "scaleway_instance_security_group_rules" "this" {
   security_group_id = scaleway_instance_security_group.this.id
 
   dynamic "inbound_rule" {
@@ -23,10 +22,6 @@ resource "scaleway_instance_security_group_rules" "inboud" {
 
     }
   }
-}
-
-resource "scaleway_instance_security_group_rules" "outband" {
-  security_group_id = scaleway_instance_security_group.this.id
 
   dynamic "outbound_rule" {
     for_each = var.outbound_rules

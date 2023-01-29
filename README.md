@@ -37,8 +37,7 @@ module "my_sg" {
 | Name | Type |
 |------|------|
 | [scaleway_instance_security_group.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/instance_security_group) | resource |
-| [scaleway_instance_security_group_rules.inboud](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/instance_security_group_rules) | resource |
-| [scaleway_instance_security_group_rules.outband](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/instance_security_group_rules) | resource |
+| [scaleway_instance_security_group_rules.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/instance_security_group_rules) | resource |
 
 ## Inputs
 
