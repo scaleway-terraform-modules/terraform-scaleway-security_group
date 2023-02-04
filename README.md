@@ -16,8 +16,6 @@ module "my_sg" {
 }
 ```
 
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -25,12 +23,6 @@ module "my_sg" {
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 0.13 |
 | <a name="requirement_scaleway"></a> [scaleway](#requirement_scaleway) | >= 2.3.0 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_scaleway"></a> [scaleway](#provider_scaleway) | >= 2.3.0 |
 
 ## Resources
 
@@ -59,7 +51,3 @@ module "my_sg" {
 |------|-------------|
 | <a name="output_group_id"></a> [group_id](#output_group_id) | ID of the security group. |
 <!-- END_TF_DOCS -->
-
-## Known issues
-
-- none for now.
