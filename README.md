@@ -51,3 +51,11 @@ module "my_sg" {
 |------|-------------|
 | <a name="output_group_id"></a> [group_id](#output_group_id) | ID of the security group. |
 <!-- END_TF_DOCS -->
+
+## Authors
+
+Module is maintained with help from [the community](https://github.com/scaleway-terraform-modules/terraform-scaleway-security_group/graphs/contributors).
+
+## License
+
+Mozilla Public License 2.0 Licensed. See [LICENSE](https://github.com/scaleway-terraform-modules/.github/tree/master/LICENSE) for full details.
