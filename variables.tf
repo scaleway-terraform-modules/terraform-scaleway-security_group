@@ -4,11 +4,6 @@ variable "name" {
   default     = null
 }
 
-variable "description" {
-  description = "Description of the security group."
-  type        = string
-  default     = null
-}
 variable "stateful" {
   description = "Boolean to specify whether the security group should be stateful or not."
   type        = bool
