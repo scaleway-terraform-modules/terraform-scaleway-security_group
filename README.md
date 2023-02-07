@@ -35,7 +35,6 @@ module "my_sg" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_description"></a> [description](#input_description) | Description of the security group. | `string` | `null` | no |
 | <a name="input_enable_default_security"></a> [enable_default_security](#input_enable_default_security) | Whether to block SMTP on IPv4/IPv6 (Port 25, 465, 587). Set to false will unblock SMTP if your account is authorized to. If your organization is not yet authorized to send SMTP traffic, open a support ticket. | `bool` | `true` | no |
 | <a name="input_inbound_default_policy"></a> [inbound_default_policy](#input_inbound_default_policy) | Default policy on incoming traffic. Possible values are: accept or drop. | `string` | `"drop"` | no |
 | <a name="input_inbound_rules"></a> [inbound_rules](#input_inbound_rules) | List of inbound rule to add to the security group. | ```list(object({ action = string protocol = string port = optional(number) port_range = optional(string) ip = optional(string) ip_range = optional(string) }))``` | ```[ { "action": null, "ip": null, "ip_range": null, "port": null, "port_range": null, "protocol": null } ]``` | no |
