@@ -35,22 +35,18 @@ module "my_sg" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_create_sg"></a> [create_sg](#input_create_sg) | ############################################################################### General ############################################################################### | `bool` | `true` | no |
-| <a name="input_create_timeout"></a> [create_timeout](#input_create_timeout) | Time to wait for a security group to be created | `string` | `"10m"` | no |
-| <a name="input_delete_timeout"></a> [delete_timeout](#input_delete_timeout) | Time to wait for a security group to be deleted | `string` | `"15m"` | no |
+| <a name="input_create_sg"></a> [create_sg](#input_create_sg) | Whether you choose to create a new security group. Set to false if you want to use already existing group. | `bool` | `true` | no |
 | <a name="input_enable_default_security"></a> [enable_default_security](#input_enable_default_security) | Whether to block SMTP on IPv4/IPv6 (Port 25, 465, 587). Set to false will unblock SMTP if your account is authorized to. If your organization is not yet authorized to send SMTP traffic, open a support ticket. | `bool` | `true` | no |
 | <a name="input_inbound_default_policy"></a> [inbound_default_policy](#input_inbound_default_policy) | Default policy on incoming traffic. Possible values are: accept or drop. | `string` | `"drop"` | no |
 | <a name="input_inbound_rules"></a> [inbound_rules](#input_inbound_rules) | List of inbound rule to add to the security group. | ```list(object({ action = string protocol = string port = optional(number) port_range = optional(string) ip = optional(string) ip_range = optional(string) }))``` | ```[ { "action": null, "ip": null, "ip_range": null, "port": null, "port_range": null, "protocol": null } ]``` | no |
 | <a name="input_name"></a> [name](#input_name) | Name of the security group. | `string` | `null` | no |
 | <a name="input_outbound_default_policy"></a> [outbound_default_policy](#input_outbound_default_policy) | Default policy on outgoing traffic. Possible values are: accept or drop. | `string` | `"drop"` | no |
 | <a name="input_outbound_rules"></a> [outbound_rules](#input_outbound_rules) | List of outbound rule to add to the security group. | ```list(object({ action = string protocol = string port = optional(number) port_range = optional(string) ip = optional(string) ip_range = optional(string) }))``` | ```[ { "action": null, "ip": null, "ip_range": null, "port": null, "port_range": null, "protocol": null } ]``` | no |
-| <a name="input_read_timeout"></a> [read_timeout](#input_read_timeout) | Time to wait for a security group to be read | `string` | `"10m"` | no |
 | <a name="input_security_group_description"></a> [security_group_description](#input_security_group_description) | Security Group description | `string` | `""` | no |
-| <a name="input_security_group_id"></a> [security_group_id](#input_security_group_id) | n/a | `string` | `""` | no |
+| <a name="input_security_group_id"></a> [security_group_id](#input_security_group_id) | Whether you choose to use and existing security group. | `string` | `""` | no |
 | <a name="input_sg_tags"></a> [sg_tags](#input_sg_tags) | Additional tags for the Security Groups | `list(string)` | `[]` | no |
 | <a name="input_stateful"></a> [stateful](#input_stateful) | Boolean to specify whether the security group should be stateful or not. | `bool` | `true` | no |
 | <a name="input_tags"></a> [tags](#input_tags) | Tags associated with the security group and its rules. | `list(any)` | `[]` | no |
-| <a name="input_update_timeout"></a> [update_timeout](#input_update_timeout) | Time to wait for a security group to be updated | `string` | `"10m"` | no |
 
 ## Outputs
 

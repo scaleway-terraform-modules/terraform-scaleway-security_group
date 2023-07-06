@@ -2,7 +2,7 @@
 # Get ID of created Security Group
 ##################################
 locals {
-  this_sg_id = var.create_sg ? concat(scaleway_instance_security_group.this.*.id, [""])[0] : var.security_group_id
+  this_sg_id = var.create_sg ? scaleway_instance_security_group.this[0].id : var.security_group_id
 }
 
 resource "scaleway_instance_security_group" "this" {
@@ -15,7 +15,7 @@ resource "scaleway_instance_security_group" "this" {
   outbound_default_policy = var.outbound_default_policy
   enable_default_security = var.enable_default_security
   external_rules          = true
-  tags                    = concat(
+  tags = concat(
     var.tags,
     var.sg_tags,
   )

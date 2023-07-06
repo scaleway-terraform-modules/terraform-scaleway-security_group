@@ -2,12 +2,14 @@
 # General
 ################################################################################
 variable "create_sg" {
-  type    = bool
-  default = true
+  description = "Whether you choose to create a new security group. Set to false if you want to use already existing group."
+  type        = bool
+  default     = true
 }
 variable "security_group_id" {
-  default = ""
-  type    = string
+  description = "Whether you choose to use and existing security group."
+  default     = ""
+  type        = string
 }
 
 variable "enable_default_security" {
@@ -34,38 +36,14 @@ variable "name" {
   default     = null
 }
 
-variable "create_timeout" {
-  description = "Time to wait for a security group to be created"
-  type        = string
-  default     = "10m"
-}
-
-variable "update_timeout" {
-  description = "Time to wait for a security group to be updated"
-  type        = string
-  default     = "10m"
-}
-
-variable "read_timeout" {
-  description = "Time to wait for a security group to be read"
-  type        = string
-  default     = "10m"
-}
-
-variable "delete_timeout" {
-  description = "Time to wait for a security group to be deleted"
-  type        = string
-  default     = "15m"
-}
-
 ################################################################################
 # Security Group
 ################################################################################
 
 variable "security_group_description" {
   description = "Security Group description"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "stateful" {
