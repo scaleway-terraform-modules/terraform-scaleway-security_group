@@ -40,7 +40,6 @@ variable "name" {
 ################################################################################
 # Security Group
 ################################################################################
-
 variable "security_group_description" {
   description = "Security Group description"
   type        = string
@@ -78,7 +77,6 @@ variable "outbound_default_policy" {
 ################################################################################
 # Security Group Rules
 ################################################################################
-
 variable "inbound_rules" {
   description = "List of inbound rule to add to the security group."
   type = list(object({
