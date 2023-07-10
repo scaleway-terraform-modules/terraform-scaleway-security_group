@@ -16,10 +16,10 @@ locals {
 
   inbound_rules = [
     {
-      action    = "accept"
-      ip_range  = "10.10.0.0/20"
-      por_range = "15-25"
-      protocol  = "TCP"
+      action     = "accept"
+      ip_range   = "10.10.0.0/20"
+      port_range = "15-25"
+      protocol   = "TCP"
     },
     {
       action   = "drop"
