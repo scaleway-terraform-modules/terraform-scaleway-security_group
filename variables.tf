@@ -6,6 +6,7 @@ variable "create_sg" {
   type        = bool
   default     = true
 }
+
 variable "security_group_id" {
   description = "Whether you choose to use and existing security group."
   default     = ""
