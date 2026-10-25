@@ -12,7 +12,7 @@ This repository is used to create a security group on scaleway using terraform.
 ```hcl
 module "my_sg" {
   source  = "scaleway-terraform-modules/security_group/scaleway"
-  version = "1.0.2"
+  version = "~> 1.0"
 }
 ```
 
