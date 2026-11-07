@@ -2,7 +2,39 @@
 
 ## Purpose
 
-This repository is used to create a security group on scaleway using terraform.
+This repository is used to manage a security group and its rules on scaleway using terraform. The module can create the security group, or attach its rules to an existing one.
+
+> [!IMPORTANT]
+> Both default policies are `drop`, unlike the provider's defaults (`accept`). Without rules, instances using the security group accept no incoming traffic and can't reach anything either, including package mirrors, NTP or DNS servers. Add the rules they need, or set `outbound_default_policy = "accept"`.
+
+- ### Rules
+
+`inbound_rules` and `outbound_rules` are lists of rules, evaluated in order. Each rule sets:
+
+- `action`: `accept` or `drop`;
+- `protocol`: `TCP`, `UDP`, `ICMP` or `ANY`;
+- `port` (e.g. `443`) or `port_range` (e.g. `8000-8080`), only with `TCP` or `UDP`. They are destination ports, in both directions. A rule without `port` nor `port_range` applies to all ports;
+- `ip_ranges`: the IP ranges the rule applies to. It defaults to `["0.0.0.0/0"]`, i.e. all IPv4 addresses: IPv6 addresses must be listed explicitly, e.g. `["0.0.0.0/0", "::/0"]`. Use a `/32` range (or `/128` in IPv6) for a single address.
+
+The module creates one provider rule per range, keeping the order of the rules and of their ranges. `ip` and `ip_range` are not supported: use `ip_ranges` instead.
+
+- ### Stateful and stateless security groups
+
+By default (`stateful = true`), the security group remembers the accepted connections, and allows their replies without rules of their own. With `stateful = false`, every packet is evaluated on its own, so the replies must be accepted by rules too, e.g. an outbound rule on the ephemeral ports of the clients for a web server. See the [stateless](examples/stateless) example.
+
+- ### Using an existing security group
+
+Set `create_security_group = false`, and `security_group_id` to the ID of an existing security group, as `{zone}/{id}`, to attach the rules to it. Note that:
+
+- the module manages **all** the rules of the security group: rules created outside of the module are deleted on the next apply, and empty `inbound_rules` / `outbound_rules` remove all the rules;
+- if the existing security group is managed by Terraform, it must set `external_rules = true` and have no inline `inbound_rule` / `outbound_rule` block, otherwise both configurations fight over the rules;
+- the module doesn't manage the settings of the existing security group (name, description, default policies, ...). Setting `description`, `project_id` or `zone` displays a warning, as they are ignored.
+
+See the [existing-security-group](examples/existing-security-group) example.
+
+- ### SMTP
+
+By default (`enable_default_security = true`), outgoing SMTP traffic (ports 25, 465 and 587) is blocked on IPv4 and IPv6. Set `enable_default_security = false` to unblock it if your organization is authorized to send SMTP traffic; otherwise, [open a support ticket](https://console.scaleway.com/support/tickets) to request it.
 
 ## Usage
 
@@ -10,11 +42,24 @@ This repository is used to create a security group on scaleway using terraform.
 - Include this module in your tf file. Refer to [documentation](https://www.terraform.io/docs/modules/sources.html#generic-git-repository).
 
 ```hcl
-module "my_sg" {
+module "security_group" {
   source  = "scaleway-terraform-modules/security_group/scaleway"
   version = "~> 1.0"
+
+  name = "web-servers"
+
+  inbound_rules = [{
+    action    = "accept"
+    protocol  = "TCP"
+    port      = 443
+    ip_ranges = ["0.0.0.0/0", "::/0"]
+  }]
 }
 ```
+
+Attach the security group to instances with its ID, e.g. `security_group_id = module.security_group.security_group_id` in a `scaleway_instance_server` resource.
+
+See the [examples](examples) folder for runnable configurations covering the most common use-cases (simple security group, web server, existing security group, stateless security group).
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -67,4 +112,4 @@ Module is maintained with help from [the community](https://github.com/scaleway-
 
 ## License
 
-Mozilla Public License 2.0 Licensed. See [LICENSE](https://github.com/scaleway-terraform-modules/terraform-scaleway-security_group/tree/master/LICENSE) for full details.
+Mozilla Public License 2.0 Licensed. See [LICENSE](https://github.com/scaleway-terraform-modules/terraform-scaleway-security_group/tree/main/LICENSE) for full details.
