@@ -53,6 +53,18 @@ variable "description" {
   default     = null
 }
 
+variable "project_id" {
+  description = "ID of the project the security group is associated with. Resource will be created in the project set at the provider level if null. Only used when `create_security_group` is true: a warning is displayed when it is set otherwise."
+  type        = string
+  default     = null
+}
+
+variable "zone" {
+  description = "Zone in which the security group should be created, e.g. `fr-par-1`. Resource will be created in the zone set at the provider level if null. Only used when `create_security_group` is true: a warning is displayed when it is set otherwise, as the zone of an existing security group is part of `security_group_id`."
+  type        = string
+  default     = null
+}
+
 variable "stateful" {
   description = "Boolean to specify whether the security group should be stateful or not."
   type        = bool
