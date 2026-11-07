@@ -78,7 +78,7 @@ variable "outbound_default_policy" {
 # Security Group Rules
 ################################################################################
 variable "inbound_rules" {
-  description = "List of inbound rules to add to the security group. When empty (default), only `inbound_default_policy` applies to incoming traffic. Each rule applies to every range of `ip_ranges` (default `[\"0.0.0.0/0\"]`, i.e. all IPv4 addresses), e.g. `[\"0.0.0.0/0\", \"::/0\"]` for all IPv4 and IPv6 addresses, or `[\"192.0.2.10/32\"]` for a single address. `ip` and `ip_range` are not supported: use `ip_ranges` instead."
+  description = "List of inbound rules to add to the security group. When empty (default), only `inbound_default_policy` applies to incoming traffic. Each rule applies to every range of `ip_ranges` (default `[\"0.0.0.0/0\"]`, i.e. all IPv4 addresses), e.g. `[\"0.0.0.0/0\", \"::/0\"]` for all IPv4 and IPv6 addresses, or `[\"192.0.2.10/32\"]` for a single address. A rule without `port` nor `port_range` applies to all ports. `ip` and `ip_range` are not supported: use `ip_ranges` instead."
   type = list(object({
     action     = string
     protocol   = string
@@ -105,10 +105,40 @@ variable "inbound_rules" {
     condition     = alltrue([for rule in var.inbound_rules : length(distinct(rule.ip_ranges)) == length(rule.ip_ranges)])
     error_message = "'inbound_rules[].ip_ranges' values must be unique within a rule."
   }
+
+  validation {
+    condition     = alltrue([for rule in var.inbound_rules : try(contains(["accept", "drop"], rule.action), false)])
+    error_message = "'inbound_rules[].action' must be one of `accept` or `drop`."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.inbound_rules : try(contains(["TCP", "UDP", "ICMP", "ANY"], rule.protocol), false)])
+    error_message = "'inbound_rules[].protocol' must be one of `TCP`, `UDP`, `ICMP` or `ANY`."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.inbound_rules : rule.port == null || try(rule.port >= 1 && rule.port <= 65535 && floor(rule.port) == rule.port, false)])
+    error_message = "'inbound_rules[].port' must be an integer between 1 and 65535."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.inbound_rules : rule.port_range == null || try(can(regex("^[0-9]+-[0-9]+$", rule.port_range)) && tonumber(split("-", rule.port_range)[0]) >= 1 && tonumber(split("-", rule.port_range)[1]) <= 65535 && tonumber(split("-", rule.port_range)[0]) <= tonumber(split("-", rule.port_range)[1]), false)])
+    error_message = "'inbound_rules[].port_range' must be a range of ports between 1 and 65535, lowest first, e.g. `8000-8080`."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.inbound_rules : rule.port == null || rule.port_range == null])
+    error_message = "'inbound_rules[].port' and 'inbound_rules[].port_range' are mutually exclusive."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.inbound_rules : rule.port == null && rule.port_range == null || try(contains(["TCP", "UDP"], rule.protocol), false)])
+    error_message = "'inbound_rules[].port' and 'inbound_rules[].port_range' can only be set when 'protocol' is `TCP` or `UDP`."
+  }
 }
 
 variable "outbound_rules" {
-  description = "List of outbound rules to add to the security group. When empty (default), only `outbound_default_policy` applies to outgoing traffic. Each rule applies to every range of `ip_ranges` (default `[\"0.0.0.0/0\"]`, i.e. all IPv4 addresses), e.g. `[\"0.0.0.0/0\", \"::/0\"]` for all IPv4 and IPv6 addresses, or `[\"192.0.2.10/32\"]` for a single address. `ip` and `ip_range` are not supported: use `ip_ranges` instead."
+  description = "List of outbound rules to add to the security group. When empty (default), only `outbound_default_policy` applies to outgoing traffic. Each rule applies to every range of `ip_ranges` (default `[\"0.0.0.0/0\"]`, i.e. all IPv4 addresses), e.g. `[\"0.0.0.0/0\", \"::/0\"]` for all IPv4 and IPv6 addresses, or `[\"192.0.2.10/32\"]` for a single address. A rule without `port` nor `port_range` applies to all ports. `ip` and `ip_range` are not supported: use `ip_ranges` instead."
   type = list(object({
     action     = string
     protocol   = string
@@ -134,5 +164,35 @@ variable "outbound_rules" {
   validation {
     condition     = alltrue([for rule in var.outbound_rules : length(distinct(rule.ip_ranges)) == length(rule.ip_ranges)])
     error_message = "'outbound_rules[].ip_ranges' values must be unique within a rule."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.outbound_rules : try(contains(["accept", "drop"], rule.action), false)])
+    error_message = "'outbound_rules[].action' must be one of `accept` or `drop`."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.outbound_rules : try(contains(["TCP", "UDP", "ICMP", "ANY"], rule.protocol), false)])
+    error_message = "'outbound_rules[].protocol' must be one of `TCP`, `UDP`, `ICMP` or `ANY`."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.outbound_rules : rule.port == null || try(rule.port >= 1 && rule.port <= 65535 && floor(rule.port) == rule.port, false)])
+    error_message = "'outbound_rules[].port' must be an integer between 1 and 65535."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.outbound_rules : rule.port_range == null || try(can(regex("^[0-9]+-[0-9]+$", rule.port_range)) && tonumber(split("-", rule.port_range)[0]) >= 1 && tonumber(split("-", rule.port_range)[1]) <= 65535 && tonumber(split("-", rule.port_range)[0]) <= tonumber(split("-", rule.port_range)[1]), false)])
+    error_message = "'outbound_rules[].port_range' must be a range of ports between 1 and 65535, lowest first, e.g. `8000-8080`."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.outbound_rules : rule.port == null || rule.port_range == null])
+    error_message = "'outbound_rules[].port' and 'outbound_rules[].port_range' are mutually exclusive."
+  }
+
+  validation {
+    condition     = alltrue([for rule in var.outbound_rules : rule.port == null && rule.port_range == null || try(contains(["TCP", "UDP"], rule.protocol), false)])
+    error_message = "'outbound_rules[].port' and 'outbound_rules[].port_range' can only be set when 'protocol' is `TCP` or `UDP`."
   }
 }
