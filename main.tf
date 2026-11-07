@@ -19,10 +19,7 @@ resource "scaleway_instance_security_group" "this" {
   outbound_default_policy = var.outbound_default_policy
   enable_default_security = var.enable_default_security
   external_rules          = true
-  tags = concat(
-    var.tags,
-    var.sg_tags,
-  )
+  tags                    = distinct(var.tags)
 }
 
 resource "scaleway_instance_security_group_rules" "this" {
