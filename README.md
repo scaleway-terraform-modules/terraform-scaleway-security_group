@@ -53,10 +53,10 @@ module "my_sg" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_group_id"></a> [group_id](#output_group_id) | ID of the security group. |
-| <a name="output_security_group_description"></a> [security_group_description](#output_security_group_description) | The description of the security group |
-| <a name="output_security_group_id"></a> [security_group_id](#output_security_group_id) | The ID of the security group |
-| <a name="output_security_group_name"></a> [security_group_name](#output_security_group_name) | The name of the security group |
+| <a name="output_group_id"></a> [group_id](#output_group_id) | ID of the security group the rules are attached to: the one created by the module, or `security_group_id`. |
+| <a name="output_security_group_description"></a> [security_group_description](#output_security_group_description) | Description of the security group. Null when `create_security_group` is false. |
+| <a name="output_security_group_id"></a> [security_group_id](#output_security_group_id) | ID of the security group the rules are attached to: the one created by the module, or `security_group_id`. |
+| <a name="output_security_group_name"></a> [security_group_name](#output_security_group_name) | Name of the security group. Null when `create_security_group` is false. |
 <!-- END_TF_DOCS -->
 
 ## Authors
