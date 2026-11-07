@@ -78,27 +78,39 @@ variable "outbound_default_policy" {
 # Security Group Rules
 ################################################################################
 variable "inbound_rules" {
-  description = "List of inbound rules to add to the security group. When empty (default), only `inbound_default_policy` applies to incoming traffic."
+  description = "List of inbound rules to add to the security group. When empty (default), only `inbound_default_policy` applies to incoming traffic. A rule without `ip_range` applies to `0.0.0.0/0`. `ip` is not supported: use `ip_range` instead, e.g. `192.0.2.10/32` for a single address."
   type = list(object({
     action     = string
     protocol   = string
     port       = optional(number)
     port_range = optional(string)
-    ip         = optional(string)
-    ip_range   = optional(string)
+    # Kept only to reject it: an undeclared attribute would be silently dropped, leaving the rule open to 0.0.0.0/0.
+    ip       = optional(string)
+    ip_range = optional(string)
   }))
   default = []
+
+  validation {
+    condition     = alltrue([for rule in var.inbound_rules : rule.ip == null])
+    error_message = "'inbound_rules[].ip' is not supported: use 'ip_range' instead, e.g. `192.0.2.10/32` for a single address. A rule without 'ip_range' applies to `0.0.0.0/0`."
+  }
 }
 
 variable "outbound_rules" {
-  description = "List of outbound rules to add to the security group. When empty (default), only `outbound_default_policy` applies to outgoing traffic."
+  description = "List of outbound rules to add to the security group. When empty (default), only `outbound_default_policy` applies to outgoing traffic. A rule without `ip_range` applies to `0.0.0.0/0`. `ip` is not supported: use `ip_range` instead, e.g. `192.0.2.10/32` for a single address."
   type = list(object({
     action     = string
     protocol   = string
     port       = optional(number)
     port_range = optional(string)
-    ip         = optional(string)
-    ip_range   = optional(string)
+    # Kept only to reject it: an undeclared attribute would be silently dropped, leaving the rule open to 0.0.0.0/0.
+    ip       = optional(string)
+    ip_range = optional(string)
   }))
   default = []
+
+  validation {
+    condition     = alltrue([for rule in var.outbound_rules : rule.ip == null])
+    error_message = "'outbound_rules[].ip' is not supported: use 'ip_range' instead, e.g. `192.0.2.10/32` for a single address. A rule without 'ip_range' applies to `0.0.0.0/0`."
+  }
 }
