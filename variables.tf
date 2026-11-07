@@ -5,6 +5,7 @@ variable "create_security_group" {
   description = "Whether to create a new security group. Set to false to attach the rules to an existing security group, given in `security_group_id`."
   type        = bool
   default     = true
+  nullable    = false
 }
 
 variable "security_group_id" {
@@ -17,6 +18,7 @@ variable "enable_default_security" {
   description = "Whether to block SMTP on IPv4/IPv6 (Port 25, 465, 587). Set to false will unblock SMTP if your account is authorized to. If your organization is not yet authorized to send SMTP traffic, open a support ticket."
   type        = bool
   default     = true
+  nullable    = false
 }
 
 variable "tags" {
@@ -45,12 +47,14 @@ variable "stateful" {
   description = "Boolean to specify whether the security group should be stateful or not."
   type        = bool
   default     = true
+  nullable    = false
 }
 
 variable "inbound_default_policy" {
   description = "Default policy on incoming traffic. Possible values are: accept or drop."
   type        = string
   default     = "drop"
+  nullable    = false
 
   validation {
     condition     = contains(["accept", "drop"], var.inbound_default_policy)
@@ -62,6 +66,7 @@ variable "outbound_default_policy" {
   description = "Default policy on outgoing traffic. Possible values are: accept or drop."
   type        = string
   default     = "drop"
+  nullable    = false
 
   validation {
     condition     = contains(["accept", "drop"], var.outbound_default_policy)
@@ -84,7 +89,8 @@ variable "inbound_rules" {
     ip       = optional(string)
     ip_range = optional(string)
   }))
-  default = []
+  default  = []
+  nullable = false
 
   validation {
     condition     = alltrue([for rule in var.inbound_rules : rule.ip == null && rule.ip_range == null])
@@ -144,7 +150,8 @@ variable "outbound_rules" {
     ip       = optional(string)
     ip_range = optional(string)
   }))
-  default = []
+  default  = []
+  nullable = false
 
   validation {
     condition     = alltrue([for rule in var.outbound_rules : rule.ip == null && rule.ip_range == null])
