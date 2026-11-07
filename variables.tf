@@ -78,7 +78,7 @@ variable "outbound_default_policy" {
 # Security Group Rules
 ################################################################################
 variable "inbound_rules" {
-  description = "List of inbound rule to add to the security group."
+  description = "List of inbound rules to add to the security group. When empty (default), only `inbound_default_policy` applies to incoming traffic."
   type = list(object({
     action     = string
     protocol   = string
@@ -87,20 +87,11 @@ variable "inbound_rules" {
     ip         = optional(string)
     ip_range   = optional(string)
   }))
-  default = [
-    {
-      action     = null
-      protocol   = null
-      port       = null
-      port_range = null
-      ip         = null
-      ip_range   = null
-    }
-  ]
+  default = []
 }
 
 variable "outbound_rules" {
-  description = "List of outbound rule to add to the security group."
+  description = "List of outbound rules to add to the security group. When empty (default), only `outbound_default_policy` applies to outgoing traffic."
   type = list(object({
     action     = string
     protocol   = string
@@ -109,14 +100,5 @@ variable "outbound_rules" {
     ip         = optional(string)
     ip_range   = optional(string)
   }))
-  default = [
-    {
-      action     = null
-      protocol   = null
-      port       = null
-      port_range = null
-      ip         = null
-      ip_range   = null
-    }
-  ]
+  default = []
 }
