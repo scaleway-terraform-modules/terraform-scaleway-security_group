@@ -1,8 +1,8 @@
 ################################################################################
 # General
 ################################################################################
-variable "create_sg" {
-  description = "Whether you choose to create a new security group. Set to false if you want to use already existing group."
+variable "create_security_group" {
+  description = "Whether to create a new security group. Set to false to attach the rules to an existing security group, given in `security_group_id`."
   type        = bool
   default     = true
 }
@@ -27,7 +27,7 @@ variable "tags" {
 }
 
 variable "name" {
-  description = "Name of the security group."
+  description = "Name of the security group. The provider generates a random name when null. Only used when `create_security_group` is true."
   type        = string
   default     = null
 }
@@ -35,10 +35,10 @@ variable "name" {
 ################################################################################
 # Security Group
 ################################################################################
-variable "security_group_description" {
-  description = "Security Group description"
+variable "description" {
+  description = "Description of the security group. Only used when `create_security_group` is true: a warning is displayed when it is set otherwise."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "stateful" {
