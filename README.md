@@ -53,10 +53,12 @@ module "my_sg" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_group_id"></a> [group_id](#output_group_id) | ID of the security group the rules are attached to: the one created by the module, or `security_group_id`. |
 | <a name="output_security_group_description"></a> [security_group_description](#output_security_group_description) | Description of the security group. Null when `create_security_group` is false. |
 | <a name="output_security_group_id"></a> [security_group_id](#output_security_group_id) | ID of the security group the rules are attached to: the one created by the module, or `security_group_id`. |
 | <a name="output_security_group_name"></a> [security_group_name](#output_security_group_name) | Name of the security group. Null when `create_security_group` is false. |
+| <a name="output_security_group_organization_id"></a> [security_group_organization_id](#output_security_group_organization_id) | ID of the organization the security group is associated with. Null when `create_security_group` is false. |
+| <a name="output_security_group_project_id"></a> [security_group_project_id](#output_security_group_project_id) | ID of the project the security group is associated with. Null when `create_security_group` is false. |
+| <a name="output_security_group_zone"></a> [security_group_zone](#output_security_group_zone) | Zone of the security group the rules are attached to. When `create_security_group` is false, taken from `security_group_id`. |
 <!-- END_TF_DOCS -->
 
 ## Authors
