@@ -49,9 +49,17 @@ resource "scaleway_instance_security_group_rules" "this" {
 }
 
 # A failed check only displays a warning: it doesn't stop the plan.
+
 check "unused_description" {
   assert {
     condition     = var.create_security_group || var.description == null
     error_message = "'description' is ignored when 'create_security_group' is false: the module doesn't manage the existing security group."
+  }
+}
+
+check "unused_security_group_id" {
+  assert {
+    condition     = !var.create_security_group || var.security_group_id == null
+    error_message = "'security_group_id' is ignored when 'create_security_group' is true: the rules are attached to the security group created by the module."
   }
 }
