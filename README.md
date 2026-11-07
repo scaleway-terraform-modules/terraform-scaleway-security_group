@@ -44,9 +44,8 @@ module "my_sg" {
 | <a name="input_outbound_rules"></a> [outbound_rules](#input_outbound_rules) | List of outbound rules to add to the security group. When empty (default), only `outbound_default_policy` applies to outgoing traffic. Each rule applies to every range of `ip_ranges` (default `["0.0.0.0/0"]`, i.e. all IPv4 addresses), e.g. `["0.0.0.0/0", "::/0"]` for all IPv4 and IPv6 addresses, or `["192.0.2.10/32"]` for a single address. A rule without `port` nor `port_range` applies to all ports. `ip` and `ip_range` are not supported: use `ip_ranges` instead. | ```list(object({ action = string protocol = string port = optional(number) port_range = optional(string) ip_ranges = optional(list(string), ["0.0.0.0/0"]) # Kept only to reject them: undeclared attributes would be silently dropped, leaving the rule open to 0.0.0.0/0. ip = optional(string) ip_range = optional(string) }))``` | `[]` | no |
 | <a name="input_security_group_description"></a> [security_group_description](#input_security_group_description) | Security Group description | `string` | `""` | no |
 | <a name="input_security_group_id"></a> [security_group_id](#input_security_group_id) | Whether you choose to use and existing security group. | `string` | `""` | no |
-| <a name="input_sg_tags"></a> [sg_tags](#input_sg_tags) | Additional tags for the Security Groups | `list(string)` | `[]` | no |
 | <a name="input_stateful"></a> [stateful](#input_stateful) | Boolean to specify whether the security group should be stateful or not. | `bool` | `true` | no |
-| <a name="input_tags"></a> [tags](#input_tags) | Tags associated with the security group and its rules. | `list(any)` | `[]` | no |
+| <a name="input_tags"></a> [tags](#input_tags) | Tags associated with the security group. Duplicate tags are only applied once. | `list(string)` | `[]` | no |
 
 ## Outputs
 

@@ -20,15 +20,10 @@ variable "enable_default_security" {
 }
 
 variable "tags" {
-  description = "Tags associated with the security group and its rules."
-  type        = list(any)
-  default     = []
-}
-
-variable "sg_tags" {
-  description = "Additional tags for the Security Groups"
+  description = "Tags associated with the security group. Duplicate tags are only applied once."
   type        = list(string)
   default     = []
+  nullable    = false
 }
 
 variable "name" {
