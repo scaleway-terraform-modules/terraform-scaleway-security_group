@@ -44,11 +44,11 @@ locals {
 }
 
 module "my_sg" {
-  source                     = "scaleway-terraform-modules/security_group/scaleway"
-  name                       = "my_security_group"
-  create_sg                  = true
-  security_group_description = "description"
-  inbound_rules              = local.inbound_rules
-  outbound_rules             = local.outbound_rules
+  source                = "scaleway-terraform-modules/security_group/scaleway"
+  name                  = "my_security_group"
+  create_security_group = true
+  description           = "description"
+  inbound_rules         = local.inbound_rules
+  outbound_rules        = local.outbound_rules
 }
 ```

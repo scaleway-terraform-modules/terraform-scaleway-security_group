@@ -12,7 +12,7 @@ locals {
     "terraform-scaleway-security-group-module"
   ]
 
-  create_sg = true
+  create_security_group = true
 
   inbound_rules = [
     {
@@ -48,11 +48,11 @@ locals {
 # Security Group Module
 ################################################################################
 module "sg" {
-  source                     = "../../"
-  name                       = local.name
-  create_sg                  = local.create_sg
-  security_group_description = local.description
-  tags                       = local.tags
-  inbound_rules              = local.inbound_rules
-  outbound_rules             = local.outbound_rules
+  source                = "../../"
+  name                  = local.name
+  create_security_group = local.create_security_group
+  description           = local.description
+  tags                  = local.tags
+  inbound_rules         = local.inbound_rules
+  outbound_rules        = local.outbound_rules
 }
