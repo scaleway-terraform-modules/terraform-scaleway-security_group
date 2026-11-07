@@ -44,7 +44,7 @@ By default (`enable_default_security = true`), outgoing SMTP traffic (ports 25, 
 ```hcl
 module "security_group" {
   source  = "scaleway-terraform-modules/security_group/scaleway"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   name = "web-servers"
 
@@ -58,6 +58,8 @@ module "security_group" {
 ```
 
 Attach the security group to instances with its ID, e.g. `security_group_id = module.security_group.security_group_id` in a `scaleway_instance_server` resource.
+
+Upgrading from v1? Read the breaking changes in the [v2.0.0 release notes](https://github.com/scaleway-terraform-modules/terraform-scaleway-security_group/releases/tag/v2.0.0) first.
 
 See the [examples](examples) folder for runnable configurations covering the most common use-cases (simple security group, web server, existing security group, stateless security group).
 
