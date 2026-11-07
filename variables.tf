@@ -9,9 +9,19 @@ variable "create_security_group" {
 }
 
 variable "security_group_id" {
-  description = "Whether you choose to use and existing security group."
-  default     = ""
+  description = "ID of an existing security group to attach the rules to, as `{zone}/{id}`, e.g. `fr-par-1/11111111-1111-1111-1111-111111111111`. Required when `create_security_group` is false. Ignored otherwise: a warning is displayed when it is set."
   type        = string
+  default     = null
+
+  validation {
+    condition     = var.create_security_group || var.security_group_id != null
+    error_message = "'security_group_id' must be set when 'create_security_group' is false."
+  }
+
+  validation {
+    condition     = var.security_group_id == null || can(regex("^[a-z]+-[a-z]+-[0-9]+/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", var.security_group_id))
+    error_message = "'security_group_id' must be a zoned ID, as `{zone}/{id}`, e.g. `fr-par-1/11111111-1111-1111-1111-111111111111`."
+  }
 }
 
 variable "enable_default_security" {
