@@ -3,6 +3,10 @@
 ##################################
 locals {
   this_sg_id = var.create_sg ? scaleway_instance_security_group.this[0].id : var.security_group_id
+
+  # One provider rule per range of each rule, keeping the order of the rules and of their ranges: rules are evaluated in order.
+  inbound_rules  = flatten([for rule in var.inbound_rules : [for ip_range in rule.ip_ranges : merge(rule, { ip_range = ip_range })]])
+  outbound_rules = flatten([for rule in var.outbound_rules : [for ip_range in rule.ip_ranges : merge(rule, { ip_range = ip_range })]])
 }
 
 resource "scaleway_instance_security_group" "this" {
@@ -25,7 +29,7 @@ resource "scaleway_instance_security_group_rules" "this" {
   security_group_id = local.this_sg_id
 
   dynamic "inbound_rule" {
-    for_each = var.inbound_rules
+    for_each = local.inbound_rules
     content {
       action     = inbound_rule.value.action
       ip_range   = inbound_rule.value.ip_range
@@ -36,7 +40,7 @@ resource "scaleway_instance_security_group_rules" "this" {
   }
 
   dynamic "outbound_rule" {
-    for_each = var.outbound_rules
+    for_each = local.outbound_rules
     content {
       action     = outbound_rule.value.action
       ip_range   = outbound_rule.value.ip_range

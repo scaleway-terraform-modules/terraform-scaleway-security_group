@@ -17,29 +17,29 @@ locals {
   inbound_rules = [
     {
       action     = "accept"
-      ip_range   = "10.10.0.0/20"
+      ip_ranges  = ["10.10.0.0/20"]
       port_range = "15-25"
       protocol   = "TCP"
     },
     {
-      action   = "drop"
-      port     = 443
-      ip_range = "0.0.0.0/0"
-      protocol = "TCP"
+      action    = "drop"
+      port      = 443
+      ip_ranges = ["0.0.0.0/0"]
+      protocol  = "TCP"
     }
   ]
   outbound_rules = [
     {
       action     = "accept"
       port_range = "80-90"
-      ip_range   = "0.0.0.0/0"
+      ip_ranges  = ["0.0.0.0/0"]
       protocol   = "TCP"
     },
     {
-      action   = "drop"
-      port     = 443
-      ip_range = "0.0.0.0/0"
-      protocol = "TCP"
+      action    = "drop"
+      port      = 443
+      ip_ranges = ["0.0.0.0/0"]
+      protocol  = "TCP"
     }
   ]
 }
